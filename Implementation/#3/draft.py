@@ -1,55 +1,50 @@
-def d_count(d):
-  if d == 0:
-    return 3
-  else:
-    return d - 1
-
-def move(A, B, d):
-  if d == 0:
-    return [A, B - 1]
-  elif d == 1:
-    return [A + 1, B]
-  elif d == 2:
-    return [A, B + 1]
-  else:
-    return [A - 1, B]
-
+# N, M 입력
 N, M = map(int, input().split())
 
+# place 초기화
 place = []
-ans = 0
 
+# A, B d 입력
 A, B, d = map(int, input().split())
 place.append([A, B])
 
+# game_map 세팅
 game_map = []
 for i in range(N):
-  game_map.append(input().split())
+  game_map.append(list(map(int, input().split())))
 
+# 방향, 이동 설정
+toward = [3, 0, 1, 2]
+move = [[-1, 0], [0, 1], [1, 0], [0, -1]]
+
+# cnt 초기화
 cnt = 0
 while True:
-  d = d_count(d)
-  next_place = move(A, B, d)
+  # 방향 설정, 다음 위치 확인
+  d = toward[d]
+  next_place = [A + move[d][0], B + move[d][1]]
 
-  if next_place[0] < 0 or next_place[1] < 0 or next_place[0] > M or next_place[0] > N:
+  # 다음 위치가 1이면 cnt 증가
+  if game_map[next_place[0]][next_place[1]] == 1:
     cnt += 1
-  elif game_map[next_place[1]][next_place[0]] == "1":
-    cnt += 1
-  elif next_place in place:
-    cnt += 1
+  # 그렇지 않고 다음 위치가 방문했던 위치면 cnt 증가, 방문 안했었으면 그 위치로 이동, cnt 초기화
   else:
-    A, B = next_place[0], next_place[1]
-    place.append([A, B])
-    cnt = 0
+    if next_place in place:
+      cnt += 1
+    else:
+      place.append(next_place)
+      A, B = next_place[0], next_place[1]
+      cnt = 0
 
+  # 모든 방향이 방문했거나 바다이면 뒤로 이동할 준비
   if cnt == 4:
-    tmp_d = d - 2
-    if tmp_d < 0:
-      tmp_d *= -1
-      
-    if game_map[move(A, B, tmp_d)[1]][move(A, B, tmp_d)[0]] == "1":
+    next_place = [A + move[toward[toward[d]]][0], B + move[toward[toward[d]]][1]]
+    # 뒤에 위치가 바다이면 반복문 종료, 그렇지 않으면 이동
+    if game_map[next_place[0]][next_place[1]] == 1:
       break
     else:
-      A, B = move(A, B, tmp_d)[0], move(A, B, tmp_d)[1]
+      A, B = next_place[0], next_place[1]
+      cnt = 0
 
+# 방문한 위치(중복 없이) 개수 출력
 print(len(place))
