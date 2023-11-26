@@ -86,3 +86,34 @@ def dfs(graph, v, visited):
     if not visited[i]:
       dfs(graph, i, visited)
 ```
+
+## BFS(너비 우선 탐색)
+Breadth First search  
+
+__동작 과정__  
+1. 탐색 시작 노드를 큐에 삽입하고 방문 처리
+2. 큐에서 노드를 꺼내 해당 노드의 인접 노드 중에서 방문하지 않은 노드를 모두 큐에 삽입 및 방문 처리
+3. 2번 과정을 더 이상 수행할 수 없을 때까지 반복
+
+__특징__  
+- 큐 자료구조에 기초 -> 구현이 간단
+- deque 라이브러리 사용하면 편리
+- 시간 복잡도 : O(N) (데이터 개수 : N)
+- DFS 속도 < BFS 속도 (일반적인 경우)
+
+```python
+import colletions import deque
+
+def bfs(graph, start, visited):
+  queue = deque([start])
+
+  visited[start] = True
+
+  while queue:
+    v = queue.popleft()
+
+    for i in graph[v]:
+      if not visited[i]:
+        queue.append(i)
+        visited[i] = True
+```
