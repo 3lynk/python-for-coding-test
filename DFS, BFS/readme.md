@@ -88,7 +88,7 @@ def dfs(graph, v, visited):
 ```
 
 ## BFS(너비 우선 탐색)
-Breadth First search  
+Breadth First Search  
 
 __동작 과정__  
 1. 탐색 시작 노드를 큐에 삽입하고 방문 처리
