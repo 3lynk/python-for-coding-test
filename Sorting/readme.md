@@ -20,7 +20,7 @@ for i in range(data):
     if data[k] < data[min]:
       min = k
 
-  data[k], data[min] = data[min], data[k]
+  data[i], data[min] = data[min], data[i]
 ```
 
 ### 시간 복잡도
