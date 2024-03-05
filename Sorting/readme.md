@@ -56,15 +56,15 @@ for i in range(1, len(data)):
 ```
 
 ### 시간 복잡도
+#### 최선의 경우
+1 + 1 + ... + 1 + 1  
+=> N - 1  
+___O(N)___
 #### 최악의 경우
 1 + 2 + ... + (N - 2) + (N - 1)  
 => N * (N - 1) / 2  
 ___O(N^2)___
 
-#### 최선의 경우
-1 + 1 + ... + 1 + 1  
-=> N - 1  
-___O(N)___
 
 ### 장점
 - 구현이 간단
@@ -77,4 +77,27 @@ ___O(N)___
 - 평균과 최악의 경우 O(N^2) => 비효율적
 
 ## Quick Sort(퀵 정렬)
-1. 
+1. 피봇을 설정
+2. 피봇을 기준으로 작은 값은 왼쪽, 큰 값은 왼쪽에 위치
+3. 피봇을 제외한 왼쪽, 오른쪽 리스트에서 반복
+
+### Example
+```python
+def quick_sort(arr):
+  if len(arr) <= 1:
+    return arr
+
+  p = arr[0]
+  tail = arr[1:]
+
+  left = [x for x in tail if x <= p]
+  right = [x for x in tail if x > p]
+
+  return quick_sort(left) + [p] + quick_sort(right)
+```
+
+### 시간 복잡도
+#### 평균 복잡도
+___O(NlogN)___
+#### 최악의 경우
+___O(N^2)___
