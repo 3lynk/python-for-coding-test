@@ -81,8 +81,48 @@ ___O(N^2)___
 2. 피봇을 기준으로 작은 값은 왼쪽, 큰 값은 왼쪽에 위치
 3. 피봇을 제외한 왼쪽, 오른쪽 리스트에서 반복
 
+### 특징
+__Hoare Partition__   
+- 양쪽 끝에서 pivot보다 큰 값과 작은 값 탐색  
+- Lomuto는 모든 인자가 같거나 정렬된 리스트에 대하여 swap을 발생  
+=> Hoare Partition이 평균적으로 swap 3배 적게 발생 => 더 효율적
+
+__Lomuto Partition__  
+- 한쪽 끝에서 두 개의 변수가 함께 증가하며 탐색
+  
+__Medium Pivot__
+- Pivot 값을 어떻게 설정하느냐에 따라 효율성 변동
+- 값 중에서 중간 값을 피봇으로 설정하는 것이 가장 효율적
+- 리스트의 첫번째 값, 중간번째 값, 마지막번째 값 중의 중간값 선정
+
+
 ### Example
 ```python
+# Quick Sort를 단순 구현
+def quick_sort(l, r):
+  for rx, ry in r:
+    if rx >= ry:
+      continue
+    pivot = rx
+
+    left, right = rx + 1, ry
+
+    while left <= right:
+      while left <= ry and l[left] <= l[pivot]:
+        left += 1
+      while right > rx and l[right] >= l[pivot]:
+        right -= 1
+
+      if left > right:
+        l[right], l[pivot] = l[pivot], l[right]
+      else:
+        l[right], l[left] = l[left], l[right]
+
+    quick_sort(l, [[rx, right - 1], [right + 1, ry]])
+quick_sort(l, [[0, len(l) - 1]])
+```
+```python
+# Qucik Sort를 python 장점을 활용하여 간단하게 구현 (연산횟수 증가로 다소 비효율적)
 def quick_sort(arr):
   if len(arr) <= 1:
     return arr
@@ -100,4 +140,14 @@ def quick_sort(arr):
 #### 평균 복잡도
 ___O(NlogN)___
 #### 최악의 경우
+Hoare Partition : Pivot이 왼쪽일 때는 값이 최솟값을 때, Pivot이 오른쪽일 때는 값이 최댓값일 때 분할이 발생 X
+Lomuto Partition : 모든 인자가 같거나 이미 정렬된 배열일지라도 swap 발생
 ___O(N^2)___
+
+### 장점
+- 가장 빠른 속도 O(NlogN)
+- In-place Sorting
+
+### 단점
+- 불균형 분할이라는 특징으로 거의 정렬된 리스트에 대하여 속도 저하 O(N^2)
+- Unstable Sort
