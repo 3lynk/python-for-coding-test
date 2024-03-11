@@ -98,7 +98,7 @@ __Medium Pivot__
 ### Example
 ```python
 # Quick Sort를 단순 구현
-def quick_sort(l, r):
+def quick_sort(data, r):
   for rx, ry in r:
     if rx >= ry:
       continue
@@ -107,27 +107,27 @@ def quick_sort(l, r):
     left, right = rx + 1, ry
 
     while left <= right:
-      while left <= ry and l[left] <= l[pivot]:
+      while left <= ry and data[left] <= data[pivot]:
         left += 1
-      while right > rx and l[right] >= l[pivot]:
+      while right > rx and data[right] >= data[pivot]:
         right -= 1
 
       if left > right:
-        l[right], l[pivot] = l[pivot], l[right]
+        data[right], data[pivot] = data[pivot], data[right]
       else:
-        l[right], l[left] = l[left], l[right]
+        data[right], data[left] = data[left], data[right]
 
-    quick_sort(l, [[rx, right - 1], [right + 1, ry]])
-quick_sort(l, [[0, len(l) - 1]])
+    quick_sort(data, [[rx, right - 1], [right + 1, ry]])
+quick_sort(data, [[0, len(data) - 1]])
 ```
 ```python
 # Qucik Sort를 python 장점을 활용하여 간단하게 구현 (연산횟수 증가로 다소 비효율적)
-def quick_sort(arr):
-  if len(arr) <= 1:
-    return arr
+def quick_sort(data):
+  if len(data) <= 1:
+    return data
 
-  p = arr[0]
-  tail = arr[1:]
+  p = data[0]
+  tail = data[1:]
 
   left = [x for x in tail if x <= p]
   right = [x for x in tail if x > p]
